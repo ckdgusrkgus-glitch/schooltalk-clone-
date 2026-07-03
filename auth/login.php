@@ -36,8 +36,8 @@ if (isset($_SESSION['user_id'])) {
         </form>
 
         <div class="auth-links">
-            <a href="find_password.php">아이디 / 비밀번호 재설정</a>
-            <a href="register.php">회원가입</a>
+            <a href="find_password.php">비밀번호 재설정</a>
+            <a href="register.php" style="margin-left: 42px;">회원가입</a>
         </div>
     </div>
 </body>
