@@ -2,27 +2,21 @@
 // visitor/apply.php
 require '../includes/auth_check.php';
 require '../config/db.php';
-require '../includes/header.php';
 
-if ($_SESSION['role'] !== 'parent') {
-    die('접근 권한이 없습니다.');
-}
+if ($_SESSION['role'] !== 'parent') { die('접근 권한이 없습니다.'); }
 
-// 본인이 신청한 예약 목록도 같이 보여주기
-$stmt = $pdo->prepare("
-    SELECT * FROM visitor_reservations
-    WHERE parent_id = :parent_id
-    ORDER BY visit_date DESC, visit_time DESC
-");
+$stmt = $pdo->prepare("SELECT * FROM visitor_reservations WHERE parent_id = :parent_id ORDER BY visit_date DESC");
 $stmt->execute(['parent_id' => $_SESSION['user_id']]);
 $my_reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$active_menu = 'visitor';
+require '../includes/header.php';
 ?>
 
 <h2>방문자 예약 신청</h2>
 
 <form action="visitor_process.php" method="post">
     <input type="hidden" name="action" value="apply">
-
     <label>방문 날짜</label>
     <input type="date" name="visit_date" required>
 
@@ -30,19 +24,14 @@ $my_reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <input type="time" name="visit_time" required>
 
     <label>방문 목적</label>
-    <input type="text" name="purpose" maxlength="200" required>
+    <input type="text" name="purpose" required>
 
-    <button type="submit">신청</button>
+    <button type="submit" class="btn btn-block">신청</button>
 </form>
 
-<h3>내 예약 내역</h3>
-<table border="1" cellpadding="6">
-    <tr>
-        <th>날짜</th>
-        <th>시간</th>
-        <th>목적</th>
-        <th>상태</th>
-    </tr>
+<h2 style="margin-top:40px;">내 예약 내역</h2>
+<table>
+    <tr><th>날짜</th><th>시간</th><th>목적</th><th>상태</th></tr>
     <?php foreach ($my_reservations as $r): ?>
         <tr>
             <td><?= htmlspecialchars($r['visit_date']) ?></td>
@@ -52,4 +41,5 @@ $my_reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </tr>
     <?php endforeach; ?>
 </table>
+
 <?php require '../includes/footer.php'; ?>

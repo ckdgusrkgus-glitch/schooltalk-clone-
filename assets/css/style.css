@@ -1,3 +1,16 @@
+:root {
+    --primary: #007AFF;
+    --accent: #5B50FF;
+    --bg-gray: #f5f6f8;
+    --input-bg: #F2F2F2;
+    --border-color: #007AFF;
+    --status-present-bg: #cfe4ff;
+    --status-late-bg: #ffe0c2;
+    --status-absent-bg: #ffd1d1;
+    --radius-card: 24px;
+    --radius-input: 8px;
+}
+
 * {
     box-sizing: border-box;
     font-family: "Pretendard", "Malgun Gothic", sans-serif;
@@ -5,63 +18,216 @@
 
 body {
     margin: 0;
-    background-color: #f5f6f8;
+    background-color: var(--bg-gray);
 }
+
+/* ── 헤더 / 네비게이션 ── */
+header {
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+}
+
+header .header-inner {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    padding: 16px 40px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img { width: 36px; height: 36px; }
+
+.logo .school-name { font-weight: bold; font-size: 15px; }
+.logo .service-name { font-size: 12px; color: #888; }
 
 header nav {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 12px 24px;
-    background-color: #2d5be3;
+    gap: 32px;
+    flex: 1;
 }
 
 header nav a {
-    color: #fff;
+    color: #333;
     text-decoration: none;
+    font-weight: bold;
+    padding-bottom: 4px;
 }
 
-header nav span {
+/* 현재 위치한 메뉴 강조 (PHP에서 클래스 부여) */
+header nav a.active {
+    color: var(--primary);
+    border-bottom: 2px solid var(--primary);
+}
+
+header .user-area {
     margin-left: auto;
-    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 16px;
 }
 
+header .user-area a { color: #333; text-decoration: none; }
+
+/* ── 공통 카드 레이아웃 ── */
 main {
-    max-width: 900px;
-    margin: 24px auto;
-    padding: 24px;
+    max-width: 1200px;
+    margin: 32px auto;
+    padding: 40px;
     background: #fff;
-    border-radius: 8px;
+    border-radius: var(--radius-card);
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
+main h2 { font-size: 28px; margin-bottom: 24px; }
+
+/* ── 로그인/회원가입 전용 카드(중앙 배치) ── */
+.auth-page {
+    display: flex;
+    justify-content: center;
+    padding-top: 60px;
 }
 
-table th, table td {
-    padding: 8px 12px;
-    text-align: left;
+.auth-card {
+    width: 460px;
+    padding: 48px;
+    background: #fff;
+    border: 1px solid var(--primary);
+    border-radius: var(--radius-card);
+    text-align: center;
 }
 
+.auth-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 24px;
+    margin: 0 auto 16px;
+}
+
+.auth-card h2 { margin-bottom: 4px; }
+.auth-card .subtitle { color: #888; margin-bottom: 32px; }
+
+/* ── 폼 공통 ── */
 form label {
     display: block;
-    margin-top: 12px;
+    text-align: left;
+    margin-top: 16px;
     font-weight: bold;
 }
 
-form input, form textarea {
+form input, form textarea, form select {
     width: 100%;
-    padding: 8px;
-    margin-top: 4px;
+    padding: 14px;
+    margin-top: 6px;
+    background: var(--input-bg);
+    border: none;
+    border-radius: var(--radius-input);
+    font-size: 14px;
 }
 
-button {
-    margin-top: 16px;
-    padding: 8px 16px;
-    background-color: #2d5be3;
+form input::placeholder { color: #aaa; }
+
+.radio-group {
+    display: flex;
+    gap: 24px;
+    margin-top: 12px;
+    text-align: left;
+}
+
+/* ── 버튼 ── */
+.btn {
+    display: inline-block;
+    padding: 14px 24px;
+    background-color: var(--primary);
     color: #fff;
     border: none;
-    border-radius: 4px;
+    border-radius: var(--radius-input);
+    font-weight: bold;
     cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn:hover { background-color: #1e6fd1; }
+.btn-block { width: 100%; margin-top: 32px; }
+.btn-small { padding: 8px 16px; font-size: 13px; }
+
+.auth-links { margin-top: 20px; font-size: 14px; }
+.auth-links a { color: var(--primary); font-weight: bold; text-decoration: none; margin-left: 8px; }
+
+/* ── 표(공지/방문예약 목록) ── */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+}
+
+table th, table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+/* ── 출결 캘린더 그리드 ── */
+.attendance-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.attendance-grid .day-label { text-align: center; font-weight: bold; padding: 8px; }
+.attendance-grid .day-label.sun { color: red; }
+.attendance-grid .day-label.sat { color: blue; }
+
+/* 상태 버튼 (클릭으로 상태 전환되는 베리언트) */
+.status-cell {
+    border: 1px solid #000;
+    border-radius: 6px;
+    padding: 12px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    user-select: none;
+}
+
+.status-cell .date { display: block; text-align: left; font-weight: normal; font-size: 12px; }
+
+.status-cell[data-status="출석"] { background-color: var(--status-present-bg); }
+.status-cell[data-status="지각"] { background-color: var(--status-late-bg); }
+.status-cell[data-status="결석"] { background-color: var(--status-absent-bg); }
+
+/* ── 로그인/회원가입/재설정 페이지 좌상단 로고 ── */
+.page-logo {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.page-logo img { height: 30px; width: auto; object-fit: contain; }
+.page-logo .school-name { font-weight: bold; font-size: 15px; display: block; }
+.page-logo .service-name { font-size: 12px; color: #888; }
+
+/* auth-page가 position 기준점이 되도록 */
+.auth-page { position: relative; }
+
+
+.status-cell-empty {
+    background: transparent;
+    border: none;
+    cursor: default;
 }
